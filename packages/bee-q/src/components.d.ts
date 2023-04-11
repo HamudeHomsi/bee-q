@@ -196,6 +196,12 @@ export namespace Components {
          */
         "titleAlignment"?: TDividerTitleAlignment;
     }
+    interface BqDropdownItem {
+        /**
+          * If true, the dropdown item is disabled
+         */
+        "disabled"?: boolean;
+    }
     interface BqDropdownPanel {
         /**
           * Distance between dropdown panel and the trigger element
@@ -511,6 +517,12 @@ declare global {
         prototype: HTMLBqDividerElement;
         new (): HTMLBqDividerElement;
     };
+    interface HTMLBqDropdownItemElement extends Components.BqDropdownItem, HTMLStencilElement {
+    }
+    var HTMLBqDropdownItemElement: {
+        prototype: HTMLBqDropdownItemElement;
+        new (): HTMLBqDropdownItemElement;
+    };
     interface HTMLBqDropdownPanelElement extends Components.BqDropdownPanel, HTMLStencilElement {
     }
     var HTMLBqDropdownPanelElement: {
@@ -581,6 +593,7 @@ declare global {
         "bq-button": HTMLBqButtonElement;
         "bq-checkbox": HTMLBqCheckboxElement;
         "bq-divider": HTMLBqDividerElement;
+        "bq-dropdown-item": HTMLBqDropdownItemElement;
         "bq-dropdown-panel": HTMLBqDropdownPanelElement;
         "bq-icon": HTMLBqIconElement;
         "bq-radio": HTMLBqRadioElement;
@@ -772,6 +785,12 @@ declare namespace LocalJSX {
           * Set the alignment of the title on the main axis of the divider (horizontal / vertical)
          */
         "titleAlignment"?: TDividerTitleAlignment;
+    }
+    interface BqDropdownItem {
+        /**
+          * If true, the dropdown item is disabled
+         */
+        "disabled"?: boolean;
     }
     interface BqDropdownPanel {
         /**
@@ -1044,6 +1063,7 @@ declare namespace LocalJSX {
         "bq-button": BqButton;
         "bq-checkbox": BqCheckbox;
         "bq-divider": BqDivider;
+        "bq-dropdown-item": BqDropdownItem;
         "bq-dropdown-panel": BqDropdownPanel;
         "bq-icon": BqIcon;
         "bq-radio": BqRadio;
@@ -1070,6 +1090,7 @@ declare module "@stencil/core" {
             "bq-button": LocalJSX.BqButton & JSXBase.HTMLAttributes<HTMLBqButtonElement>;
             "bq-checkbox": LocalJSX.BqCheckbox & JSXBase.HTMLAttributes<HTMLBqCheckboxElement>;
             "bq-divider": LocalJSX.BqDivider & JSXBase.HTMLAttributes<HTMLBqDividerElement>;
+            "bq-dropdown-item": LocalJSX.BqDropdownItem & JSXBase.HTMLAttributes<HTMLBqDropdownItemElement>;
             "bq-dropdown-panel": LocalJSX.BqDropdownPanel & JSXBase.HTMLAttributes<HTMLBqDropdownPanelElement>;
             /**
              * Icons are simplified images that graphically explain the meaning of an object on the screen.
