@@ -197,6 +197,10 @@ export namespace Components {
         "titleAlignment"?: TDividerTitleAlignment;
     }
     interface BqDropdownPanel {
+        /**
+          * Distance between dropdown panel and the trigger element
+         */
+        "distance"?: number;
     }
     /**
      * Icons are simplified images that graphically explain the meaning of an object on the screen.
@@ -770,6 +774,10 @@ declare namespace LocalJSX {
         "titleAlignment"?: TDividerTitleAlignment;
     }
     interface BqDropdownPanel {
+        /**
+          * Distance between dropdown panel and the trigger element
+         */
+        "distance"?: number;
     }
     /**
      * Icons are simplified images that graphically explain the meaning of an object on the screen.

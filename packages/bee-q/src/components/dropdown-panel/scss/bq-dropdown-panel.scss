@@ -4,6 +4,22 @@
 
 @import './bq-dropdown-panel-variables';
 
-// :host {
-//   @apply block;
-// }
+:host {
+  @apply inline-block;
+}
+
+.bq-dropdown {
+  @apply relative;
+
+  &__trigger {
+    @apply block;
+  }
+
+  &__panel {
+    @apply absolute m-0 h-[200px] w-[320px]  gap-2 rounded-s p-2;
+
+    &.visible {
+      @apply flex flex-col;
+    }
+  }
+}

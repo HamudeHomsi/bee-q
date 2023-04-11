@@ -1,4 +1,4 @@
-import { h, Component, State } from '@stencil/core';
+import { h, Component, State, Prop } from '@stencil/core';
 
 import { FloatingUI } from '../../services/libraries';
 
@@ -29,6 +29,9 @@ export class BqDropdownPanel {
   // Prop lifecycle events
   // =======================
 
+  /** Distance between dropdown panel and the trigger element */
+  @Prop({ reflect: true }) distance?: number = 0;
+
   // Events section
   // Requires JSDocs for public API documentation
   // ==============================================
@@ -40,7 +43,7 @@ export class BqDropdownPanel {
   componentDidLoad() {
     this.floatingUI = new FloatingUI(this.trigger, this.panel, {
       placement: 'bottom',
-      distance: 0,
+      distance: this.distance,
       sameWidth: false,
       strategy: 'fixed',
       skidding: 0,
@@ -77,19 +80,23 @@ export class BqDropdownPanel {
 
   render() {
     return (
-      <div part="base">
-        <div ref={(el) => (this.trigger = el)} part="trigger" onClick={this.openPanel}>
+      <div part="base" class="bq-dropdown">
+        <div ref={(el) => (this.trigger = el)} part="trigger" onClick={this.openPanel} class="bq-dropdown__trigger">
           <slot name="trigger" />
         </div>
-        <div
+        <ul
           aria-hidden={!this.isVisible}
           hidden={!this.isVisible}
           ref={(el) => (this.panel = el)}
           role="list"
           part="panel"
+          class={{
+            'bq-dropdown__panel': true,
+            visible: this.isVisible,
+          }}
         >
-          <slot name="panel" />
-        </div>
+          <slot />
+        </ul>
       </div>
     );
   }
