@@ -1,4 +1,4 @@
-import { h, Component, State, Prop } from '@stencil/core';
+import { h, Component, State, Prop, Listen, Event, EventEmitter } from '@stencil/core';
 
 import { FloatingUI } from '../../services/libraries';
 
@@ -36,6 +36,15 @@ export class BqDropdownPanel {
   // Requires JSDocs for public API documentation
   // ==============================================
 
+  /** Handler to be called when the item loses focus */
+  @Event() bqBlur: EventEmitter<HTMLBqDropdownPanelElement>;
+
+  /** Handler to be called when the item gets focus */
+  @Event() bqFocus: EventEmitter<HTMLBqDropdownPanelElement>;
+
+  /** Handler to be called when item is clicked */
+  @Event() bqClick: EventEmitter<HTMLBqDropdownPanelElement>;
+
   // Component lifecycle events
   // Ordered by their natural call order
   // =====================================
@@ -56,6 +65,22 @@ export class BqDropdownPanel {
 
   // Listeners
   // ==============
+
+  @Listen('bqDropdownItemBlur')
+  bqDropdownItemBlur(event: CustomEvent<HTMLBqDropdownItemElement>) {
+    this.bqBlur.emit(event.detail);
+  }
+
+  @Listen('bqDropdownItemFocus')
+  bqDropdownItemFocus(event: CustomEvent<HTMLBqDropdownItemElement>) {
+    this.bqFocus.emit(event.detail);
+  }
+
+  @Listen('bqDropdownItemClick')
+  bqDropdownItemClick(event: CustomEvent<HTMLBqDropdownItemElement>) {
+    this.bqClick.emit(event.detail);
+    this.isVisible = false;
+  }
 
   // Public methods API
   // These methods are exposed on the host element.
@@ -80,20 +105,20 @@ export class BqDropdownPanel {
 
   render() {
     return (
-      <div part="base" class="bq-dropdown">
-        <div ref={(el) => (this.trigger = el)} part="trigger" onClick={this.openPanel} class="bq-dropdown__trigger">
+      <div class="bq-dropdown" part="base">
+        <div class="bq-dropdown__trigger" ref={(el) => (this.trigger = el)} part="trigger" onClick={this.openPanel}>
           <slot name="trigger" />
         </div>
         <ul
+          class={{
+            'bq-dropdown__panel': true,
+            visible: this.isVisible,
+          }}
           aria-hidden={!this.isVisible}
           hidden={!this.isVisible}
           ref={(el) => (this.panel = el)}
           role="list"
           part="panel"
-          class={{
-            'bq-dropdown__panel': true,
-            visible: this.isVisible,
-          }}
         >
           <slot />
         </ul>

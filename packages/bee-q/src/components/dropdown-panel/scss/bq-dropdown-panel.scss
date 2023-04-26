@@ -16,7 +16,7 @@
   }
 
   &__panel {
-    @apply absolute m-0 h-[200px] w-[320px]  gap-2 rounded-s p-2;
+    @apply absolute m-0 h-[var(--bq-dropdown-panel--height)] w-[var(--bq-dropdown-panel--width)]  gap-2 overflow-y-auto overflow-x-hidden rounded-s p-2 shadow-m;
 
     &.visible {
       @apply flex flex-col;

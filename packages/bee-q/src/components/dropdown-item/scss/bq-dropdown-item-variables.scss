@@ -3,5 +3,8 @@
 /* -------------------------------------------------------------------------- */
 
 :host {
-  // --bq-dropdown-item--margin: 1px;
+  --bq-dropdown-item--height: 40px;
+
+  --bq-dropdown-item-label--m-width: 20vw;
+  --bq-dropdown-item-label--paddingX: 12px;
 }

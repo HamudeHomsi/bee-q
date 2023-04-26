@@ -12,6 +12,15 @@
 | `disabled` | `disabled` | If true, the dropdown item is disabled | `boolean` | `false` |
 
 
+## Events
+
+| Event                 | Description                                | Type                                     |
+| --------------------- | ------------------------------------------ | ---------------------------------------- |
+| `bqDropdownItemBlur`  | Handler to be called when item loses focus | `CustomEvent<HTMLBqDropdownItemElement>` |
+| `bqDropdownItemClick` | Handler to be called when item is clicked  | `CustomEvent<HTMLBqDropdownItemElement>` |
+| `bqDropdownItemFocus` | Handler to be called when item is focused  | `CustomEvent<HTMLBqDropdownItemElement>` |
+
+
 ## Shadow Parts
 
 | Part       | Description |

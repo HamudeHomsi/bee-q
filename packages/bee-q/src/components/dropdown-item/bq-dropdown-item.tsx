@@ -1,4 +1,6 @@
-import { h, Component, Prop } from '@stencil/core';
+import { h, Component, Prop, State, Element, EventEmitter, Event } from '@stencil/core';
+
+import { hasSlotContent } from '../../shared/utils';
 
 @Component({
   tag: 'bq-dropdown-item',
@@ -9,12 +11,18 @@ export class BqDropdownItem {
   // Own Properties
   // ====================
 
+  private prefixElem: HTMLElement;
+
   // Reference to host HTML element
   // ===================================
+
+  @Element() el!: HTMLBqDropdownItemElement;
 
   // State() variables
   // Inlined decorator, alphabetical order
   // =======================================
+
+  @State() hasPrefix = false;
 
   // Public Property API
   // ========================
@@ -28,6 +36,15 @@ export class BqDropdownItem {
   // Events section
   // Requires JSDocs for public API documentation
   // ==============================================
+
+  /** Handler to be called when item loses focus */
+  @Event() bqDropdownItemBlur: EventEmitter<HTMLBqDropdownItemElement>;
+
+  /** Handler to be called when item is focused */
+  @Event() bqDropdownItemFocus: EventEmitter<HTMLBqDropdownItemElement>;
+
+  /** Handler to be called when item is clicked */
+  @Event() bqDropdownItemClick: EventEmitter<HTMLBqDropdownItemElement>;
 
   // Component lifecycle events
   // Ordered by their natural call order
@@ -48,6 +65,28 @@ export class BqDropdownItem {
   // These methods cannot be called from the host element.
   // =======================================================
 
+  private onBlur = () => {
+    this.bqDropdownItemBlur.emit(this.el);
+  };
+
+  private onFocus = () => {
+    this.bqDropdownItemFocus.emit(this.el);
+  };
+
+  private onClick = (event: Event) => {
+    if (this.disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
+    this.bqDropdownItemClick.emit(this.el);
+  };
+
+  private onSlotChange = () => {
+    this.hasPrefix = hasSlotContent(this.prefixElem, 'prefix');
+  };
+
   // render() function
   // Always the last one in the class.
   // ===================================
@@ -60,14 +99,26 @@ export class BqDropdownItem {
           group: true,
           disabled: this.disabled,
         }}
+        aria-role="listitem"
+        tabindex={this.disabled ? '-1' : '0'}
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}
+        onClick={this.onClick}
       >
-        <span part="prefix" class="bq-dropdown-item__child">
-          <slot name="prefix" />
+        <span class="bq-dropdown-item__child" ref={(elem) => (this.prefixElem = elem)} part="prefix">
+          <slot name="prefix" onSlotchange={this.onSlotChange} />
         </span>
-        <span part="label" class="bq-dropdown-item__child label">
+        <span
+          class={{
+            'bq-dropdown-item__child': true,
+            label: true,
+            'has-prefix': this.hasPrefix,
+          }}
+          part="label"
+        >
           <slot />
         </span>
-        <span part="suffix" class="bq-dropdown-item__child suffix">
+        <span class="bq-dropdown-item__child suffix" part="suffix">
           <slot name="suffix" />
         </span>
       </li>

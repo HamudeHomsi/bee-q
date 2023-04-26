@@ -518,6 +518,14 @@ export interface BqCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLBqCheckboxElement;
 }
+export interface BqDropdownItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLBqDropdownItemElement;
+}
+export interface BqDropdownPanelCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLBqDropdownPanelElement;
+}
 export interface BqIconCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLBqIconElement;
@@ -871,12 +879,36 @@ declare namespace LocalJSX {
           * If true, the dropdown item is disabled
          */
         "disabled"?: boolean;
+        /**
+          * Handler to be called when item loses focus
+         */
+        "onBqDropdownItemBlur"?: (event: BqDropdownItemCustomEvent<HTMLBqDropdownItemElement>) => void;
+        /**
+          * Handler to be called when item is clicked
+         */
+        "onBqDropdownItemClick"?: (event: BqDropdownItemCustomEvent<HTMLBqDropdownItemElement>) => void;
+        /**
+          * Handler to be called when item is focused
+         */
+        "onBqDropdownItemFocus"?: (event: BqDropdownItemCustomEvent<HTMLBqDropdownItemElement>) => void;
     }
     interface BqDropdownPanel {
         /**
           * Distance between dropdown panel and the trigger element
          */
         "distance"?: number;
+        /**
+          * Handler to be called when the item loses focus
+         */
+        "onBqBlur"?: (event: BqDropdownPanelCustomEvent<HTMLBqDropdownPanelElement>) => void;
+        /**
+          * Handler to be called when item is clicked
+         */
+        "onBqClick"?: (event: BqDropdownPanelCustomEvent<HTMLBqDropdownPanelElement>) => void;
+        /**
+          * Handler to be called when the item gets focus
+         */
+        "onBqFocus"?: (event: BqDropdownPanelCustomEvent<HTMLBqDropdownPanelElement>) => void;
     }
     /**
      * Icons are simplified images that graphically explain the meaning of an object on the screen.
