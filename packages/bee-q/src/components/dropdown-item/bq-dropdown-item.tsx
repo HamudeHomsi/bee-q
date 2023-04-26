@@ -1,4 +1,4 @@
-import { h, Component, Prop, State, Element, EventEmitter, Event } from '@stencil/core';
+import { h, Component, Prop, State, Element, EventEmitter, Event, Listen } from '@stencil/core';
 
 import { hasSlotContent } from '../../shared/utils';
 
@@ -46,12 +46,20 @@ export class BqDropdownItem {
   /** Handler to be called when item is clicked */
   @Event() bqDropdownItemClick: EventEmitter<HTMLBqDropdownItemElement>;
 
+  /** Handler to be called on enter key press */
+  @Event() bqDropdownItemOnEnter: EventEmitter<HTMLBqDropdownItemElement>;
+
   // Component lifecycle events
   // Ordered by their natural call order
   // =====================================
 
   // Listeners
   // ==============
+
+  @Listen('keydown')
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter') this.bqDropdownItemOnEnter.emit(this.el);
+  }
 
   // Public methods API
   // These methods are exposed on the host element.

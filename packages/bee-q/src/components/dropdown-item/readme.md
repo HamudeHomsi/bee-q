@@ -14,11 +14,12 @@
 
 ## Events
 
-| Event                 | Description                                | Type                                     |
-| --------------------- | ------------------------------------------ | ---------------------------------------- |
-| `bqDropdownItemBlur`  | Handler to be called when item loses focus | `CustomEvent<HTMLBqDropdownItemElement>` |
-| `bqDropdownItemClick` | Handler to be called when item is clicked  | `CustomEvent<HTMLBqDropdownItemElement>` |
-| `bqDropdownItemFocus` | Handler to be called when item is focused  | `CustomEvent<HTMLBqDropdownItemElement>` |
+| Event                   | Description                                | Type                                     |
+| ----------------------- | ------------------------------------------ | ---------------------------------------- |
+| `bqDropdownItemBlur`    | Handler to be called when item loses focus | `CustomEvent<HTMLBqDropdownItemElement>` |
+| `bqDropdownItemClick`   | Handler to be called when item is clicked  | `CustomEvent<HTMLBqDropdownItemElement>` |
+| `bqDropdownItemFocus`   | Handler to be called when item is focused  | `CustomEvent<HTMLBqDropdownItemElement>` |
+| `bqDropdownItemOnEnter` | Handler to be called on enter key press    | `CustomEvent<HTMLBqDropdownItemElement>` |
 
 
 ## Shadow Parts

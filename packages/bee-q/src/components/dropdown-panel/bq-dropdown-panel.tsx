@@ -1,6 +1,7 @@
-import { h, Component, State, Prop, Listen, Event, EventEmitter } from '@stencil/core';
+import { h, Component, State, Prop, Listen, Event, EventEmitter, Element } from '@stencil/core';
 
 import { FloatingUI } from '../../services/libraries';
+import { FloatingUIPlacement } from '../../services/interfaces';
 
 @Component({
   tag: 'bq-dropdown-panel',
@@ -17,6 +18,8 @@ export class BqDropdownPanel {
   // Reference to host HTML element
   // ===================================
 
+  @Element() el!: HTMLBqDropdownPanelElement;
+
   // State() variables
   // Inlined decorator, alphabetical order
   // =======================================
@@ -32,6 +35,9 @@ export class BqDropdownPanel {
   /** Distance between dropdown panel and the trigger element */
   @Prop({ reflect: true }) distance?: number = 0;
 
+  /** Position of the panel */
+  @Prop({ reflect: true }) placement?: FloatingUIPlacement = 'bottom';
+
   // Events section
   // Requires JSDocs for public API documentation
   // ==============================================
@@ -42,8 +48,8 @@ export class BqDropdownPanel {
   /** Handler to be called when the item gets focus */
   @Event() bqFocus: EventEmitter<HTMLBqDropdownPanelElement>;
 
-  /** Handler to be called when item is clicked */
-  @Event() bqClick: EventEmitter<HTMLBqDropdownPanelElement>;
+  /** Handler to be called when item is clicked or on Enter key press */
+  @Event() bqSelect: EventEmitter<HTMLBqDropdownPanelElement>;
 
   // Component lifecycle events
   // Ordered by their natural call order
@@ -51,7 +57,7 @@ export class BqDropdownPanel {
 
   componentDidLoad() {
     this.floatingUI = new FloatingUI(this.trigger, this.panel, {
-      placement: 'bottom',
+      placement: this.placement,
       distance: this.distance,
       sameWidth: false,
       strategy: 'fixed',
@@ -77,9 +83,18 @@ export class BqDropdownPanel {
   }
 
   @Listen('bqDropdownItemClick')
-  bqDropdownItemClick(event: CustomEvent<HTMLBqDropdownItemElement>) {
-    this.bqClick.emit(event.detail);
+  @Listen('bqDropdownItemOnEnter')
+  bqDropdownItemOnSelect(event: CustomEvent<HTMLBqDropdownItemElement>) {
+    this.bqSelect.emit(event.detail);
     this.isVisible = false;
+  }
+
+  /** On click outside the panel */
+  @Listen('click', { target: 'document' })
+  onClickOutsidePanel(event: MouseEvent) {
+    if (!event.composedPath().includes(this.el)) {
+      this.isVisible = false;
+    }
   }
 
   // Public methods API

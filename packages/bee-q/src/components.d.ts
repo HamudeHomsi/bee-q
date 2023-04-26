@@ -9,6 +9,7 @@ import { TAvatarShape, TAvatarSize } from "./components/avatar/bq-avatar.types";
 import { TBadgeSize } from "./components/badge/bq-badge.types";
 import { TButtonAppearance, TButtonSize, TButtonType, TButtonVariant } from "./components/button/bq-button.types";
 import { TDividerOrientation, TDividerStrokeLinecap, TDividerTitleAlignment } from "./components/divider/bq-divider.types";
+import { FloatingUIPlacement } from "./services/interfaces";
 import { TIconWeight } from "./components/icon/bq-icon.types";
 import { TRadioGroupOrientation } from "./components/radio-group/bq-radio-group.types";
 import { TSliderType } from "./components/slider/bq-slider.types";
@@ -16,11 +17,11 @@ import { TSpinnerSize, TSpinnerTextPosition } from "./components/spinner/bq-spin
 import { TStatusType } from "./components/status/bq-status.types";
 import { TSwitchInnerLabel, TSwitchJustifyContent } from "./components/switch/bq-swithc.types";
 import { TTabSize } from "./components/tab/bq-tab.types";
-import { FloatingUIPlacement } from "./services/interfaces";
 export { TAvatarShape, TAvatarSize } from "./components/avatar/bq-avatar.types";
 export { TBadgeSize } from "./components/badge/bq-badge.types";
 export { TButtonAppearance, TButtonSize, TButtonType, TButtonVariant } from "./components/button/bq-button.types";
 export { TDividerOrientation, TDividerStrokeLinecap, TDividerTitleAlignment } from "./components/divider/bq-divider.types";
+export { FloatingUIPlacement } from "./services/interfaces";
 export { TIconWeight } from "./components/icon/bq-icon.types";
 export { TRadioGroupOrientation } from "./components/radio-group/bq-radio-group.types";
 export { TSliderType } from "./components/slider/bq-slider.types";
@@ -28,7 +29,6 @@ export { TSpinnerSize, TSpinnerTextPosition } from "./components/spinner/bq-spin
 export { TStatusType } from "./components/status/bq-status.types";
 export { TSwitchInnerLabel, TSwitchJustifyContent } from "./components/switch/bq-swithc.types";
 export { TTabSize } from "./components/tab/bq-tab.types";
-export { FloatingUIPlacement } from "./services/interfaces";
 export namespace Components {
     /**
      * An avatar represents an object made of different pieces of information, in a way that is understandable at a glance.
@@ -209,6 +209,10 @@ export namespace Components {
           * Distance between dropdown panel and the trigger element
          */
         "distance"?: number;
+        /**
+          * Position of the panel
+         */
+        "placement"?: FloatingUIPlacement;
     }
     /**
      * Icons are simplified images that graphically explain the meaning of an object on the screen.
@@ -891,6 +895,10 @@ declare namespace LocalJSX {
           * Handler to be called when item is focused
          */
         "onBqDropdownItemFocus"?: (event: BqDropdownItemCustomEvent<HTMLBqDropdownItemElement>) => void;
+        /**
+          * Handler to be called on enter key press
+         */
+        "onBqDropdownItemOnEnter"?: (event: BqDropdownItemCustomEvent<HTMLBqDropdownItemElement>) => void;
     }
     interface BqDropdownPanel {
         /**
@@ -902,13 +910,17 @@ declare namespace LocalJSX {
          */
         "onBqBlur"?: (event: BqDropdownPanelCustomEvent<HTMLBqDropdownPanelElement>) => void;
         /**
-          * Handler to be called when item is clicked
-         */
-        "onBqClick"?: (event: BqDropdownPanelCustomEvent<HTMLBqDropdownPanelElement>) => void;
-        /**
           * Handler to be called when the item gets focus
          */
         "onBqFocus"?: (event: BqDropdownPanelCustomEvent<HTMLBqDropdownPanelElement>) => void;
+        /**
+          * Handler to be called when item is clicked or on Enter key press
+         */
+        "onBqSelect"?: (event: BqDropdownPanelCustomEvent<HTMLBqDropdownPanelElement>) => void;
+        /**
+          * Position of the panel
+         */
+        "placement"?: FloatingUIPlacement;
     }
     /**
      * Icons are simplified images that graphically explain the meaning of an object on the screen.
