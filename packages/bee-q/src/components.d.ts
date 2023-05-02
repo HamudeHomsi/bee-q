@@ -200,15 +200,27 @@ export namespace Components {
     }
     interface BqDropdownItem {
         /**
+          * Relevant only if multiple` attr is true; if true, checkbox is checked
+         */
+        "checked"?: boolean;
+        /**
           * If true, the dropdown item is disabled
          */
         "disabled"?: boolean;
+        /**
+          * If true, display <bq-checkbox>
+         */
+        "multiple"?: boolean;
     }
     interface BqDropdownPanel {
         /**
           * Distance between dropdown panel and the trigger element
          */
         "distance"?: number;
+        /**
+          * Multiple options can be selected
+         */
+        "multiple"?: boolean;
         /**
           * Position of the panel
          */
@@ -880,9 +892,17 @@ declare namespace LocalJSX {
     }
     interface BqDropdownItem {
         /**
+          * Relevant only if multiple` attr is true; if true, checkbox is checked
+         */
+        "checked"?: boolean;
+        /**
           * If true, the dropdown item is disabled
          */
         "disabled"?: boolean;
+        /**
+          * If true, display <bq-checkbox>
+         */
+        "multiple"?: boolean;
         /**
           * Handler to be called when item loses focus
          */
@@ -905,6 +925,10 @@ declare namespace LocalJSX {
           * Distance between dropdown panel and the trigger element
          */
         "distance"?: number;
+        /**
+          * Multiple options can be selected
+         */
+        "multiple"?: boolean;
         /**
           * Handler to be called when the item loses focus
          */

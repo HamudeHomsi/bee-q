@@ -75,6 +75,19 @@ Type: `Promise<void>`
 | `"label"`    | The `<span>` element that holds the text content.                         |
 
 
+## Dependencies
+
+### Used by
+
+ - [bq-dropdown-item](../dropdown-item)
+
+### Graph
+```mermaid
+graph TD;
+  bq-dropdown-item --> bq-checkbox
+  style bq-checkbox fill:#f9f,stroke:#333,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

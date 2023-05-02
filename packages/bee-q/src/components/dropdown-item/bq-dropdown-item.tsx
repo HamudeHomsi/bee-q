@@ -33,6 +33,12 @@ export class BqDropdownItem {
   /** If true, the dropdown item is disabled */
   @Prop({ reflect: true }) disabled?: boolean = false;
 
+  /** If true, display <bq-checkbox> */
+  @Prop({ reflect: true }) multiple?: boolean = false;
+
+  /** Relevant only if multiple` attr is true; if true, checkbox is checked */
+  @Prop({ reflect: true }) checked?: boolean = false;
+
   // Events section
   // Requires JSDocs for public API documentation
   // ==============================================
@@ -73,11 +79,23 @@ export class BqDropdownItem {
   // These methods cannot be called from the host element.
   // =======================================================
 
-  private onBlur = () => {
+  private onBlur = (event: Event) => {
+    if (this.disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
     this.bqDropdownItemBlur.emit(this.el);
   };
 
-  private onFocus = () => {
+  private onFocus = (event: Event) => {
+    if (this.disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
     this.bqDropdownItemFocus.emit(this.el);
   };
 
@@ -89,6 +107,24 @@ export class BqDropdownItem {
     }
 
     this.bqDropdownItemClick.emit(this.el);
+  };
+
+  private getCheckboxElem = (): HTMLBqCheckboxElement => {
+    return (
+      <bq-checkbox name="" value="" disabled={this.disabled} checked={this.checked}>
+        <slot />
+      </bq-checkbox>
+    );
+  };
+
+  private displayPrefixElem = (): HTMLElement | undefined => {
+    if (this.multiple) return undefined;
+
+    return (
+      <span class="bq-dropdown-item__child" ref={(elem) => (this.prefixElem = elem)} part="prefix">
+        <slot name="prefix" onSlotchange={this.onSlotChange} />
+      </span>
+    );
   };
 
   private onSlotChange = () => {
@@ -104,7 +140,6 @@ export class BqDropdownItem {
       <li
         class={{
           'bq-dropdown-item': true,
-          group: true,
           disabled: this.disabled,
         }}
         aria-role="listitem"
@@ -113,18 +148,16 @@ export class BqDropdownItem {
         onFocus={this.onFocus}
         onClick={this.onClick}
       >
-        <span class="bq-dropdown-item__child" ref={(elem) => (this.prefixElem = elem)} part="prefix">
-          <slot name="prefix" onSlotchange={this.onSlotChange} />
-        </span>
+        {this.displayPrefixElem()}
         <span
           class={{
             'bq-dropdown-item__child': true,
             label: true,
-            'has-prefix': this.hasPrefix,
+            'no-prefix': !this.hasPrefix,
           }}
           part="label"
         >
-          <slot />
+          {this.multiple ? this.getCheckboxElem() : <slot />}
         </span>
         <span class="bq-dropdown-item__child suffix" part="suffix">
           <slot name="suffix" />

@@ -2,6 +2,7 @@ import { h, Component, State, Prop, Listen, Event, EventEmitter, Element } from 
 
 import { FloatingUI } from '../../services/libraries';
 import { FloatingUIPlacement } from '../../services/interfaces';
+import { isHTMLElement } from '../../shared/utils';
 
 @Component({
   tag: 'bq-dropdown-panel',
@@ -38,6 +39,9 @@ export class BqDropdownPanel {
   /** Position of the panel */
   @Prop({ reflect: true }) placement?: FloatingUIPlacement = 'bottom';
 
+  /** Multiple options can be selected */
+  @Prop({ reflect: true }) multiple?: boolean = false;
+
   // Events section
   // Requires JSDocs for public API documentation
   // ==============================================
@@ -56,6 +60,8 @@ export class BqDropdownPanel {
   // =====================================
 
   componentDidLoad() {
+    this.setMultipleAttrToItems();
+
     this.floatingUI = new FloatingUI(this.trigger, this.panel, {
       placement: this.placement,
       distance: this.distance,
@@ -86,7 +92,8 @@ export class BqDropdownPanel {
   @Listen('bqDropdownItemOnEnter')
   bqDropdownItemOnSelect(event: CustomEvent<HTMLBqDropdownItemElement>) {
     this.bqSelect.emit(event.detail);
-    this.isVisible = false;
+
+    if (!this.multiple) this.isVisible = false;
   }
 
   /** On click outside the panel */
@@ -108,6 +115,15 @@ export class BqDropdownPanel {
   // Internal business logic.
   // These methods cannot be called from the host element.
   // =======================================================
+
+  private setMultipleAttrToItems = () => {
+    const innerSlotElements: Element[] = this.el.shadowRoot
+      .querySelector<HTMLSlotElement>('.bq-dropdown__panel > slot')
+      .assignedElements({ flatten: true })
+      .filter((elem: HTMLElement) => isHTMLElement(elem, 'bq-dropdown-item')) as [HTMLBqDropdownItemElement];
+
+    innerSlotElements.forEach((elem: HTMLBqDropdownItemElement) => (elem.multiple = this.multiple));
+  };
 
   private openPanel = (): void => {
     this.isVisible = !this.isVisible;

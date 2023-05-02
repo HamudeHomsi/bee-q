@@ -7,9 +7,11 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                            | Type      | Default |
-| ---------- | ---------- | -------------------------------------- | --------- | ------- |
-| `disabled` | `disabled` | If true, the dropdown item is disabled | `boolean` | `false` |
+| Property   | Attribute  | Description                                                           | Type      | Default |
+| ---------- | ---------- | --------------------------------------------------------------------- | --------- | ------- |
+| `checked`  | `checked`  | Relevant only if multiple` attr is true; if true, checkbox is checked | `boolean` | `false` |
+| `disabled` | `disabled` | If true, the dropdown item is disabled                                | `boolean` | `false` |
+| `multiple` | `multiple` | If true, display <bq-checkbox>                                        | `boolean` | `false` |
 
 
 ## Events
@@ -30,6 +32,19 @@
 | `"prefix"` |             |
 | `"suffix"` |             |
 
+
+## Dependencies
+
+### Depends on
+
+- [bq-checkbox](../checkbox)
+
+### Graph
+```mermaid
+graph TD;
+  bq-dropdown-item --> bq-checkbox
+  style bq-dropdown-item fill:#f9f,stroke:#333,stroke-width:4px
+```
 
 ----------------------------------------------
 
